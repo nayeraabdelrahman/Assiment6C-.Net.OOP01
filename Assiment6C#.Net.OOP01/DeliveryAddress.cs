@@ -8,29 +8,26 @@ namespace Assiment6C_.Net.OOP01
 
     struct DeliveryAddress
     {
-        // City field
+        string city;
+        string street;
+        int buildingNumber;
 
-
-        // Street field
-
-
-        // BuildingNumber field
-
-
-
-        // Constructor
-        //
-        // Receives:
-        // city
-        // street
-        // buildingNumber
-
-
-
-        // GetFullAddress()
-        //
-        // Return the complete address
-        // as one string.
+        public DeliveryAddress(int buildingNumber, string street, string city)
+        {
+            this.buildingNumber = buildingNumber;
+            this.street = street;
+            this.city = city;  
+        }
+        public void SetCity(string city)
+        {
+           
+            this.city = city;
+        }
+        public string GetFullAddress()
+        { 
+            return $"{buildingNumber} , {street} , {city}";
+        }
+   
 
     }
 

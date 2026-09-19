@@ -1,4 +1,7 @@
-﻿namespace Assignment6C_.Net.OOP01
+﻿using Assiment6C_.Net.OOP01;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Assignment6C_.Net.OOP01
 {
     class Program
     {
@@ -41,37 +44,40 @@
             // a) Identify at least three problems with this design
             //    from an encapsulation perspective.
             //
-            // 1.
-            // 2.
-            // 3.
+            //1.The fields are public.
+            //2. Any code outside the struct can modify the fields directly.
+            //3. There is no validation to prevent invalid values.
             //
             // b) How can private fields and public properties
             //    improve this design?
             //
             // Answer:
-            //
-
+            // By making the fields private and using getters and setters,
+            // we can control how the fields are accessed and modified
+            // and prevent invalid values.
             #endregion
 
 
 
             // ==========================================
-            // PART 02 - PRACTICAL
+            // PART 02 - PRACTICAL Smart Delivery Management System 
             // ==========================================
 
 
             #region DeliveryAddress - Test
 
-            // Create one DeliveryAddress value.
-            //
-            // Copy it into a second variable.
-            //
-            // Modify the copy.
-            //
-            // Print both addresses.
-            //
-            // Prove that modifying the copy
-            // does not change the original.
+            //Create one DeliveryAddress value,
+            //copy it into a second variable,
+            //modify the copy, and print both values to prove that the original did not change. 
+
+            DeliveryAddress address1 = new DeliveryAddress(123, "5th Avenue", "New York");
+            DeliveryAddress address2 = address1;
+            Console.WriteLine(address1.GetFullAddress());
+            Console.WriteLine(address2.GetFullAddress());
+            address2.SetCity( "Los Angeles");
+            Console.WriteLine(address1.GetFullAddress());
+            Console.WriteLine(address2.GetFullAddress());
+
 
 
             #endregion
@@ -79,17 +85,6 @@
 
             #region Shipment - Constructor 1 Test
 
-            // Create a Shipment using only:
-            //
-            // trackingCode
-            //
-            // The constructor should use:
-            // Description = "Unknown"
-            // Weight = 1
-            // DeliveryFee = 50
-            // Default Destination
-            //
-            // Print the shipment information.
 
 
             #endregion
