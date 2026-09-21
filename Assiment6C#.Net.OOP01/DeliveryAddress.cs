@@ -25,7 +25,7 @@ namespace Assiment6C_.Net.OOP01
         }
         public string GetFullAddress()
         { 
-            return $"{buildingNumber} , {street} , {city}";
+            return $"{buildingNumber} {street} , {city}";
         }
    
 
