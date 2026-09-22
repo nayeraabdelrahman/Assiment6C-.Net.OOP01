@@ -8,27 +8,13 @@ namespace Assiment6C_.Net.OOP01
 
     struct Shipment
     {
-        // ==========================================
-        // PRIVATE FIELDS
-        // ==========================================
-
-        #region Private Fields
-
-        // TrackingCode field
-
-
-        // Description field
-
-
-        // Weight field
-
-
-        // DeliveryFee field
-
-
-        #endregion
-
-
+        string trackingCode;
+        string description;
+        double weight;
+        decimal deliveryFee;
+        // Destination Property-Type: DeliveryAddress
+        // Public get and set.
+        public DeliveryAddress Destination {  get; set; }
 
         // ==========================================
         // PROPERTIES
@@ -36,132 +22,136 @@ namespace Assiment6C_.Net.OOP01
 
         #region Properties
 
-        // TrackingCode Property
-        //
-        // Read-only from outside the struct.
-        //
-        // TrackingCode cannot be:
-        // null
-        // empty
-        // whitespace
+        // TrackingCode Property Read-only from outside the struct.
+        //TrackingCode cannot be:null-empty- whitespace
+        public string TrackingCode{
+            private set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    trackingCode = value;
+                }
+            }
+            get { return trackingCode; }
+        }
 
+        // Description Property Public get and set.
+        // Description cannot be: null-empty-whitespace
+        //If invalid: Keep the previous valid value.
+        public string Description
+        {
+           set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    description = value;
+                }
+            }
+            get { return description; }
+        }
 
-
-        // Description Property
-        //
-        // Public get and set.
-        //
-        // Description cannot be:
-        // null
-        // empty
-        // whitespace
-        //
-        // If invalid:
-        // Keep the previous valid value.
-
-
-
-        // Weight Property
-        //
-        // Public get and set.
-        //
+        // Weight Property:Public get and set.
         // Weight must be greater than 0.
-        //
-        // If invalid:
-        // Keep the previous valid value.
+        // If invalid: Keep the previous valid value.
+        public double Weight
+        {
+            set
+            {
+                if (weight>0)
+                {
+                    weight = value;
+                }
+            }
+            get { return weight; }
+        }
 
-
-
-        // DeliveryFee Property
-        //
-        // Public getter.
-        // Private setter.
-        //
+        // DeliveryFee PropertyPublic getter-Private setter.
         // DeliveryFee must be greater than 0.
+        public decimal DeliveryFee
+        {
+            private set
+            {
+                if (deliveryFee > 0)
+                {
+                    deliveryFee = value;
+                }
+            }
+            get { return deliveryFee; }
+        }
 
-
-
-        // Destination Property
-        //
-        // Type: DeliveryAddress
-        //
-        // Public get and set.
-
-
-
-        // EstimatedCost Property
-        //
-        // Read-only calculated property.
-        //
-        // Return:
-        // DeliveryFee + (Weight * 5)
-        //
-        // Do NOT create a field for EstimatedCost.
-
-
+        // EstimatedCost Read-only calculated property.
+        // Return:DeliveryFee + (Weight * 5)
+        public decimal EstimatedCost
+        {
+            get
+            {
+                return DeliveryFee + (decimal)(Weight * 5);
+            }
+            
+        }
         #endregion
-
-
-
         // ==========================================
         // CONSTRUCTORS
         // ==========================================
 
         #region Constructors
+        
+        // Constructor 1 -Receives:trackingCode
+        // Default values:Description = "Unknown"-Weight = 1-DeliveryFee = 50-Destination = default
+        public Shipment(string trackingCode)
+        {
+            this.trackingCode = trackingCode;
+            this.description = "Unknown";
+            this.weight = 1;
+            this.deliveryFee = 50.0m;
+            this.Destination = default;
+        }
 
-        // Constructor 1
-        //
-        // Receives:
-        // trackingCode
-        //
-        // Default values:
-        // Description = "Unknown"
-        // Weight = 1
-        // DeliveryFee = 50
-        // Destination = default
 
-
-
-        // Constructor 2
-        //
-        // Receives:
-        // trackingCode
-        // description
-        // weight
-        // deliveryFee
-        // destination
-        //
-        // Make sure all values are initialized
-        // with valid data.
-
+        // Constructor 2-
+        // Receives: trackingCode-description-weight-deliveryFee-destination
+        public Shipment(string trackingCode, string description,
+        double weight,decimal deliveryFee,DeliveryAddress Destination)
+        {
+            this.trackingCode = trackingCode;
+            this.description = description;
+            this.weight = weight;
+            this.deliveryFee= deliveryFee;
+            this.Destination = Destination;
+        }
 
         #endregion
-
-
-
         // ==========================================
         // METHODS
         // ==========================================
-
         #region Methods
 
         // UpdateDeliveryFee(decimal newFee)
-        //
         // Update DeliveryFee only if
         // newFee > 0.
-
-
-
-        // PrintShipment()
-        //
-        // Print:
+        public void UpdateDeliveryFee(decimal newFee)
+        {
+            if (newFee > 0)
+            {
+                this.deliveryFee= newFee;
+            }
+        }
+        // PrintShipment() Print:
         // TrackingCode
         // Description
         // Weight
         // DeliveryFee
         // Destination
         // EstimatedCost
+        public void PrintShipment() { 
+            Console.WriteLine($"Tracking Code: {TrackingCode}");
+            Console.WriteLine($"Description: {Description}");
+            Console.WriteLine($"Weight: {Weight} Kg");
+            Console.WriteLine($"Delivery Fee: {DeliveryFee} EGP");
+            Console.WriteLine($"Destination: {Destination.GetFullAddress()}");
+            Console.WriteLine($"Estimated Cost: {EstimatedCost}");
 
+        }
 
         #endregion
     }

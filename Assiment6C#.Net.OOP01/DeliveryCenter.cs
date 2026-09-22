@@ -21,7 +21,7 @@ namespace Assiment6C_.Net.OOP01
 
         #endregion
 
-
+        Shipment[] shipments;
 
         // ==========================================
         // CONSTRUCTOR
@@ -34,7 +34,9 @@ namespace Assiment6C_.Net.OOP01
 
 
         #endregion
-
+        public DeliveryCenter() {
+            shipments = new Shipment[10];
+        }
 
 
         // ==========================================
@@ -43,26 +45,25 @@ namespace Assiment6C_.Net.OOP01
 
         #region Integer Indexer
 
-        // Create an indexer that receives int index.
-        //
-        // GET:
-        // If index is valid:
-        // return shipment at that position.
-        //
-        // If index is invalid:
-        // return default.
-        //
-        // SET:
-        // If index is valid:
-        // replace the shipment.
-        //
-        // If index is invalid:
-        // do nothing.
-
+        public Shipment this[int index]
+        {
+            get
+            {
+                if (index >= 0 && index < shipments.Length)
+                {
+                    return shipments[index];
+                }
+                else
+                {
+                    return default;
+                }
+            }
+            set { if (index >= 0 && index < shipments.Length) { 
+                    shipments[index] = value;
+                } }
+        }
 
         #endregion
-
-
 
         // ==========================================
         // STRING INDEXER
@@ -70,22 +71,21 @@ namespace Assiment6C_.Net.OOP01
 
         #region String Indexer
 
-        // Create an indexer that receives:
-        // string trackingCode
-        //
-        // Search the Shipment array.
-        //
-        // Return the FIRST shipment
-        // with matching TrackingCode.
-        //
-        // If no shipment is found:
-        // return default.
-
-
+        public Shipment this[string trackingCode] {
+            get
+            {
+                for (int i = 0; i < shipments.Length; i++)
+                {
+                    if (shipments[i].TrackingCode == trackingCode)
+                    {
+                        return shipments[i];
+                    }
+                }
+             
+                return default;
+            }
+        }
         #endregion
-
-
-
         // ==========================================
         // METHODS
         // ==========================================
@@ -93,17 +93,22 @@ namespace Assiment6C_.Net.OOP01
         #region Methods
 
         // AddShipment(Shipment shipment)
-        //
-        // Add the shipment to the
-        // first available position.
-        //
-        // Return true:
-        // if added successfully.
-        //
-        // Return false:
-        // if the DeliveryCenter is full.
+        // Add the shipment to the first available position.
+        // Return true:if added successfully.Return false:if the DeliveryCenter is full.
+        public bool AddShipment(Shipment shipment)
+        {
+            for(int i = 0; i < shipments.Length; i++)
+            {
+                if (shipments[i].TrackingCode == null)
+                {
+                    shipments[i] = shipment;
+                    return true;
+                }
+            }
+            return false;
+        }
 
-
+      
         #endregion
     }
 
