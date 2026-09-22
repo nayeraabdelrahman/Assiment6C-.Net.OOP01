@@ -1,4 +1,5 @@
 ﻿using Assiment6C_.Net.OOP01;
+using System.Drawing;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Assignment6C_.Net.OOP01
@@ -74,6 +75,7 @@ namespace Assignment6C_.Net.OOP01
             DeliveryAddress address2 = address1;
             Console.WriteLine(address1.GetFullAddress());
             Console.WriteLine(address2.GetFullAddress());
+            Console.WriteLine("Modifying the copy...");
             address2.SetCity( "Los Angeles");
             Console.WriteLine(address1.GetFullAddress());
             Console.WriteLine(address2.GetFullAddress());
@@ -83,134 +85,112 @@ namespace Assignment6C_.Net.OOP01
             #endregion
 
 
-            #region Shipment - Constructor 1 Test
+            #region   build a Console Application
 
-
-
-            #endregion
-
-
-            #region Shipment - Constructor 2 Test
-
-            // Create a Shipment using:
-            //
-            // trackingCode
-            // description
-            // weight
-            // deliveryFee
-            // destination
-            //
-            // Print the shipment information.
-
-
-            #endregion
-
-
-            #region Shipment - Properties Test
-
-            // Test Description property.
-            //
-            // Try assigning a valid value.
-            //
-            // Try assigning:
-            // null
-            // empty string
-            // whitespace
-            //
-            // Invalid values should NOT replace
-            // the previous valid value.
-
-
-            // Test Weight property.
-            //
-            // Try assigning a valid value.
-            //
-            // Try assigning:
-            // 0
-            // negative number
-            //
-            // Invalid values should NOT replace
-            // the previous valid value.
-
-
-            #endregion
-
-
-            #region Shipment - UpdateDeliveryFee Test
-
-            // Call UpdateDeliveryFee().
-            //
-            // Test it with a valid fee.
-            //
-            // Test it with an invalid fee.
-            //
-            // The fee should only change
-            // when the new fee is greater than 0.
-
-
-            #endregion
-
-
-            #region Shipment - EstimatedCost Test
-
-            // Print EstimatedCost.
-            //
-            // Formula:
-            //
-            // DeliveryFee + (Weight * 5)
-            //
-            // EstimatedCost should be calculated
-            // when requested.
-            //
-            // Do NOT store it in a separate field.
-
-
-            #endregion
-
-
-            #region DeliveryCenter - AddShipment Test
-
-            // Create a DeliveryCenter.
-            //
-            // Add shipments using AddShipment().
-            //
-            // Print whether each shipment
-            // was added successfully.
-
+            // Create a DeliveryCenter
+            Shipment[] Shipments = new Shipment[10];
+            DeliveryCenter Rout = new DeliveryCenter();
+            
+            Console.WriteLine($"Welcome to {nameof(Rout)} Delivery Center");
+            //  Read data for three shipments from the user.
+            // Create each Shipment and add it to the DeliveryCenter.
+            for (int i = 1; i <= 3; i++)
+            {
+                Console.WriteLine($"Enter shipment {i} data:");
+                
+                Console.WriteLine($"Tracking Code: ");
+                string trackingCode;
+                trackingCode = ReadValidString("Tracking Code");
+                Shipment shipment = new Shipment(trackingCode);
+                Console.WriteLine($"Description: ");
+                string description;
+                description = Console.ReadLine()??"";
+                shipment.Description = description;
+                Console.WriteLine($"Weight: ");
+                double weight;
+                bool isValidWeight = false;
+                do { isValidWeight = double.TryParse(Console.ReadLine(), out weight); }
+                while (!isValidWeight || weight <= 0);
+                shipment.Weight = weight;
+                Console.WriteLine($"Delivery Fee: ");
+                decimal deliveryFee;
+                bool isValidDeliveryFee = false;
+                do { isValidDeliveryFee = decimal.TryParse(Console.ReadLine(), out deliveryFee); }
+                while (!isValidDeliveryFee || deliveryFee <= 0);
+                shipment.UpdateDeliveryFee(deliveryFee);
+                Console.WriteLine($"City: ");
+                string city= ReadValidString("City");
+                Console.WriteLine($"Street: ");
+                string street = ReadValidString("Street");
+                do
+                {
+                    street = Console.ReadLine() ?? "";
+                    if (string.IsNullOrWhiteSpace(street))
+                    {
+                        Console.WriteLine("Street cannot be empty or whitespace. Please enter a valid Street.");
+                    }
+                } while (string.IsNullOrWhiteSpace(street));
+                Console.WriteLine($"Building Number: ");
+                int buildingNumber;
+                bool isValidBuildingNumber = false;
+                do
+                {
+                    isValidBuildingNumber = int.TryParse(Console.ReadLine(), out buildingNumber);
+                } while (!isValidBuildingNumber||buildingNumber<=0);
+                DeliveryAddress deliveryAddress = new DeliveryAddress(buildingNumber, street, city);
+                if(Rout.AddShipment(shipment))
+                {
+                    Console.WriteLine("Shipment added successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Shipment could not be added.");
+                }
+            }
+            //Print the three shipments using the integer indexer.
+            Console.WriteLine("--- All Shipments");
+            for (int i = 0; i < 3; i++)
+            {
+                Console.WriteLine($"Shipment {i + 1}:");
+                Rout[i].PrintShipment();
+            }
+            //Ask the user to enter a tracking code.
+            Console.WriteLine("Enter a tracking code to search :");
+            string searchTrackingCode = Console.ReadLine()??"";
+            //Print the shipment if found; otherwise print:Shipment not found.
+            if (Rout[searchTrackingCode].Equals(default(Shipment)) ){ 
+                Console.WriteLine("Shipment not found.");
+            }
+            else
+            {
+                Console.WriteLine($"Shipment found: {Rout[searchTrackingCode].TrackingCode} - {Rout[searchTrackingCode].Description}");
+            }
+            //Demonstrate the DeliveryAddress struct copy behavior
+            Console.WriteLine("--- Struct Copy Test ---");
+            DeliveryAddress originalAddress = Rout[0].Destination;
+            DeliveryAddress copiedAddress = originalAddress;
+            copiedAddress.SetCity("Assiut");
+            Console.WriteLine("Original Address: " + Rout[0].Destination.GetFullAddress());
+            Console.WriteLine("Copied Address: " + copiedAddress.GetFullAddress());
 
             #endregion
 
 
-            #region DeliveryCenter - Integer Indexer Test
+            #region validation
+            static string ReadValidString(string message)
+            {
+                string input;
+                do
+                {
+                   input=Console.ReadLine()??"";
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        Console.WriteLine($"{message} cannot be empty or whitespace. Please enter a valid {message}.");
+                    }
+                } while (string.IsNullOrWhiteSpace(input));
+                return input;
+            }
 
-            // Access a shipment using its position.
-            //
-            // Example idea:
-            // center[0]
-            //
-            // Test a valid index.
-            //
-            // Test an invalid index.
-            //
-            // Invalid getter should return default.
-            //
-            // Invalid setter should do nothing.
-
-
-            #endregion
-
-
-            #region DeliveryCenter - String Indexer Test
-
-            // Search for a shipment using its tracking code.
-            //
-            // Example idea:
-            // center["TR001"]
-            //
-            // It should return the first shipment
-            // with the matching tracking code.
-            //
-            // If not found, return default.
 
 
             #endregion

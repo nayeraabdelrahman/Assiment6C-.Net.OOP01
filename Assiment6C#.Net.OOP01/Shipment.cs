@@ -95,7 +95,7 @@ namespace Assiment6C_.Net.OOP01
         // ==========================================
 
         #region Constructors
-
+        
         // Constructor 1 -Receives:trackingCode
         // Default values:Description = "Unknown"-Weight = 1-DeliveryFee = 50-Destination = default
         public Shipment(string trackingCode)
@@ -146,8 +146,8 @@ namespace Assiment6C_.Net.OOP01
         public void PrintShipment() { 
             Console.WriteLine($"Tracking Code: {TrackingCode}");
             Console.WriteLine($"Description: {Description}");
-            Console.WriteLine($"Weight: {Weight}");
-            Console.WriteLine($"Delivery Fee: {DeliveryFee}");
+            Console.WriteLine($"Weight: {Weight} Kg");
+            Console.WriteLine($"Delivery Fee: {DeliveryFee} EGP");
             Console.WriteLine($"Destination: {Destination.GetFullAddress()}");
             Console.WriteLine($"Estimated Cost: {EstimatedCost}");
 
